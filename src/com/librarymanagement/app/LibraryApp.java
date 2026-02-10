@@ -47,7 +47,9 @@ public class LibraryApp {
 				boolean isBookAdded = libraryService.addBook(title, author);
 				if(isBookAdded) {
 					System.out.println("\nBook added successfully.");
-				} 
+				} else {
+					System.out.println("\nFailed to add the book.");
+				}
 				break;
 			case 2:
 				List<Book> books = libraryService.viewAllBooks();
@@ -72,6 +74,19 @@ public class LibraryApp {
 				}
 				break;
 			case 4:
+				System.out.println("\nEnter the ID to update book details: ");
+				int updateId = sc.nextInt();
+				sc.nextLine();
+				System.out.println("\nEnter the book title: ");
+				String updatedTitle = sc.nextLine();
+				System.out.println("\nEnter the book author: ");
+				String updatedAuthor = sc.nextLine();
+				boolean isUpdated = libraryService.updateBook(updateId, updatedTitle, updatedAuthor);
+				if(isUpdated ) {
+					System.out.println("\nBook details updated successfully.");
+				} else {
+					System.out.println("\nFailed to update the book details.");
+				}
 				break;
 			case 5:
 				break;

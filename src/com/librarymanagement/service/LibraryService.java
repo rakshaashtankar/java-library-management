@@ -40,7 +40,14 @@ public class LibraryService {
 		return result;
 	}
 	
-	public boolean updateBook(String title, String author) {
+	public boolean updateBook(int id, String title, String author) {
+		for(Book b : books) {
+			if(b.getId() == id) {
+				b.setTitle(title);
+				b.setAuthor(author);
+				return true;
+			}
+		}
 		return false;
 	}
 	
