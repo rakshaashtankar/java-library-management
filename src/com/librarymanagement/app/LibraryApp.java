@@ -89,10 +89,30 @@ public class LibraryApp {
 				}
 				break;
 			case 5:
+				System.out.println("\nEnter the ID of the book to be issued: ");
+				int issueId = sc.nextInt();
+				sc.nextLine();
+				boolean issuedBook = libraryService.issueBook(issueId);
+				if(issuedBook) {
+					System.out.println("Book issue successful.");
+				} else {
+					System.out.println("Failed to issue book.");
+				}
 				break;
 			case 6:
+				System.out.println("\nEnter the ID of the book to be issued: ");
+				int returnId = sc.nextInt();
+				sc.nextLine();
+				boolean returnBook = libraryService.returnBook(returnId);
+				if(returnBook) {
+					System.out.println("Book return successful.");
+				} else {
+					System.out.println("Failed to return book.");
+				}
 				break;
 			case 7:
+				System.out.println("Exiting...");
+				exit = true;
 				break;
 			default:
 				System.out.println("Invalid choice");

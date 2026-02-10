@@ -52,10 +52,30 @@ public class LibraryService {
 	}
 	
 	public boolean issueBook(int id) {
+		for(Book b : books) {
+			if(b.getId() == id) {
+				if(!b.isIssued()) {
+					b.setIssued(true);
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
 		return false;
 	}
 	
 	public boolean returnBook(int id) {
+		for(Book b : books) {
+			if(b.getId() == id) {
+				if(b.isIssued()) {
+					b.setIssued(false);
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
 		return false;
 	}
 
