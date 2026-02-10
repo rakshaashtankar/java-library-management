@@ -10,8 +10,10 @@ public class LibraryService {
 	private List<Book> books = new ArrayList<>();
 	private int counter = 1;
 	
-	public boolean addBook(Book book) {
-		return false;
+	public boolean addBook(String title, String author) {
+		Book newBook = new Book(counter++, title, author);
+		books.add(newBook);
+		return true;
 	}
 	
 	public List<Book> viewAllBooks() {
@@ -26,7 +28,7 @@ public class LibraryService {
 		return null;
 	}
 	
-	public boolean updateBook(Book book) {
+	public boolean updateBook(String title, String author) {
 		return false;
 	}
 	
@@ -38,9 +40,8 @@ public class LibraryService {
 		return false;
 	}
 
-	
-
-	public boolean saveToFile(Book book) {
+	public boolean saveToFile() {
+		// use `this.books` internally
 		return false;
 	}
 	

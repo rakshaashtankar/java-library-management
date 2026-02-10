@@ -26,6 +26,14 @@ public class LibraryApp {
 			
 			switch(choice) {
 			case 1:
+				System.out.println("Enter the book title: ");
+				String title = sc.nextLine();
+				System.out.println("Enter the book author: ");
+				String author = sc.nextLine();
+				boolean isBookAdded = libraryService.addBook(title, author);
+				if(isBookAdded) {
+					System.out.println("Book added successfully.");
+				} 
 				break;
 			case 2:
 				break;
