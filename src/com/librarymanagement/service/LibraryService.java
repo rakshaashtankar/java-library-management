@@ -1,5 +1,11 @@
 package com.librarymanagement.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,15 +86,31 @@ public class LibraryService {
 	}
 
 	public boolean saveToFile() {
-		// use `this.books` internally
-		return false;
+		try(FileOutputStream fos = new FileOutputStream("data/books.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+			oos.writeObject(books);
+			return true;
+		} catch(IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public boolean loadFromFile() {
-		return false;
+		File file = new File("data/books.dat");
+		if(!file.exists()) {
+			books = new ArrayList<>();
+			return false;
+		}
+		try(FileInputStream fis = new FileInputStream(file);
+			ObjectInputStream ois = new ObjectInputStream(fis)) {
+			books = (List<Book>) ois.readObject();
+			return true;
+		} catch(IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+			books = new ArrayList<>();
+			return false;
+		}
 	}
-
-	
-	
-
 }

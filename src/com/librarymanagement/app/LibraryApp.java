@@ -23,6 +23,7 @@ public class LibraryApp {
 		System.out.println("Library Management System Started...");
 		Scanner sc = new Scanner(System.in);
 		LibraryService libraryService = new LibraryService();
+		libraryService.loadFromFile();
 		boolean exit = false;
 		while(!exit) {
 			System.out.println("\n=== Library Management System Menu ===");	
@@ -94,28 +95,29 @@ public class LibraryApp {
 				sc.nextLine();
 				boolean issuedBook = libraryService.issueBook(issueId);
 				if(issuedBook) {
-					System.out.println("Book issue successful.");
+					System.out.println("\nBook issue successful.");
 				} else {
-					System.out.println("Failed to issue book.");
+					System.out.println("\nFailed to issue book.");
 				}
 				break;
 			case 6:
-				System.out.println("\nEnter the ID of the book to be issued: ");
+				System.out.println("\nEnter the ID of the book to be returned: ");
 				int returnId = sc.nextInt();
 				sc.nextLine();
 				boolean returnBook = libraryService.returnBook(returnId);
 				if(returnBook) {
-					System.out.println("Book return successful.");
+					System.out.println("\nBook return successful.");
 				} else {
-					System.out.println("Failed to return book.");
+					System.out.println("\nFailed to return book.");
 				}
 				break;
 			case 7:
-				System.out.println("Exiting...");
+				libraryService.saveToFile();
+				System.out.println("\nExiting...");
 				exit = true;
 				break;
 			default:
-				System.out.println("Invalid choice");
+				System.out.println("\nInvalid choice");
 			}
 		}
 		sc.close();
