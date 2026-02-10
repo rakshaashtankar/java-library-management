@@ -1,7 +1,9 @@
 package com.librarymanagement.app;
 
+import java.util.List;
 import java.util.Scanner;
 
+import com.librarymanagement.model.Book;
 import com.librarymanagement.service.LibraryService;
 
 public class LibraryApp {
@@ -11,7 +13,7 @@ public class LibraryApp {
 		LibraryService libraryService = new LibraryService();
 		boolean exit = false;
 		while(!exit) {
-			System.out.println("=== Library Management System Menu ===");	
+			System.out.println("\n=== Library Management System Menu ===");	
 			System.out.println("1. Add Book");
 			System.out.println("2. View Books");
 			System.out.println("3. Search Book");
@@ -20,22 +22,31 @@ public class LibraryApp {
 			System.out.println("6. Return Book");
 			System.out.println("7. Exit");
 			
-			System.out.println("Enter your choice: ");
+			System.out.println("\nEnter your choice: ");
 			int choice = sc.nextInt();
 			sc.nextLine();
 			
 			switch(choice) {
 			case 1:
-				System.out.println("Enter the book title: ");
+				System.out.println("\nEnter the book title: ");
 				String title = sc.nextLine();
-				System.out.println("Enter the book author: ");
+				System.out.println("\nEnter the book author: ");
 				String author = sc.nextLine();
 				boolean isBookAdded = libraryService.addBook(title, author);
 				if(isBookAdded) {
-					System.out.println("Book added successfully.");
+					System.out.println("\nBook added successfully.");
 				} 
 				break;
 			case 2:
+				List<Book> books = libraryService.viewAllBooks();
+				if(!books.isEmpty()) {
+					System.out.println("\nID | Title | Author | Isissued");
+					for(Book b: books) {
+						System.out.println(b.getId() + " | " + b.getTitle()  + " | " + b.getAuthor()  + " | " + b.isIssued());
+					}
+				} else {
+					System.out.println("\nNo record found.");
+				}
 				break;
 			case 3:
 				break;
