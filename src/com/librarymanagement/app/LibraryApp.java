@@ -7,6 +7,18 @@ import com.librarymanagement.model.Book;
 import com.librarymanagement.service.LibraryService;
 
 public class LibraryApp {
+	
+	public static void printBooks(List<Book> books) {
+		if(!books.isEmpty()) {
+			System.out.println("\nID | Title | Author | Isissued");
+			for(Book b: books) {
+				System.out.println(b.getId() + " | " + b.getTitle()  + " | " + b.getAuthor()  + " | " + b.isIssued());
+			}
+		} else {
+			System.out.println("\nNo record found.");
+		}
+	}
+	
 	public static void main(String[] args) {
 		System.out.println("Library Management System Started...");
 		Scanner sc = new Scanner(System.in);
@@ -39,16 +51,25 @@ public class LibraryApp {
 				break;
 			case 2:
 				List<Book> books = libraryService.viewAllBooks();
-				if(!books.isEmpty()) {
-					System.out.println("\nID | Title | Author | Isissued");
-					for(Book b: books) {
-						System.out.println(b.getId() + " | " + b.getTitle()  + " | " + b.getAuthor()  + " | " + b.isIssued());
-					}
-				} else {
-					System.out.println("\nNo record found.");
-				}
+				printBooks(books);
 				break;
 			case 3:
+				System.out.println("\nSearch By \n1. Title \n2. Author\n");
+				int searchChoice = sc.nextInt();
+				sc.nextLine();
+				if(searchChoice == 1) {
+					System.out.println("Enter the book title: ");
+					String searchTitle = sc.nextLine();
+					List<Book> searchTitleBooks = libraryService.searchBookByTitle(searchTitle);
+					printBooks(searchTitleBooks);
+				} else if(searchChoice == 2) {
+					System.out.println("Enter the book author: ");
+					String searchAuthor = sc.nextLine();
+					List<Book> searchAuthorBooks = libraryService.searchBookByAuthor(searchAuthor);
+					printBooks(searchAuthorBooks);
+				} else {
+					System.out.println("\nInvalid choice");
+				}
 				break;
 			case 4:
 				break;

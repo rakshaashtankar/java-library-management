@@ -21,11 +21,23 @@ public class LibraryService {
 	}
 	
 	public List<Book> searchBookByTitle(String title) {
-		return null;
+		List<Book> result = new ArrayList<>();
+		for(Book b : books) {
+			if(b.getTitle().toLowerCase().contains(title.toLowerCase())) {
+				result.add(b);
+			}
+		}
+		return result;
 	}
 	
 	public List<Book> searchBookByAuthor(String author) {
-		return null;
+		List<Book> result = new ArrayList<>();
+		for(Book b : books) {
+			if(b.getAuthor().toLowerCase().contains(author.toLowerCase())) {
+				result.add(b);
+			}
+		}
+		return result;
 	}
 	
 	public boolean updateBook(String title, String author) {
