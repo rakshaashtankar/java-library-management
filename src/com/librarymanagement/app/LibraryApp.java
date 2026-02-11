@@ -33,7 +33,8 @@ public class LibraryApp {
 			System.out.println("4. Update Book");
 			System.out.println("5. Issue Book");
 			System.out.println("6. Return Book");
-			System.out.println("7. Exit");
+			System.out.println("7. Delete Book");
+			System.out.println("8. Exit");
 			
 			System.out.println("\nEnter your choice: ");
 			int choice = sc.nextInt();
@@ -111,7 +112,18 @@ public class LibraryApp {
 					System.out.println("\nFailed to return book.");
 				}
 				break;
-			case 7:
+			case 7: 
+				System.out.println("\nEnter the ID of the book to be deleted: ");
+				int deleteId = sc.nextInt();
+				sc.nextLine();
+				boolean isDeleted = libraryService.deleteBook(deleteId);
+				if(isDeleted) {
+					System.out.println("\nBook deleted successful.");
+				} else {
+					System.out.println("\nFailed to delete book.");
+				}
+				break;
+			case 8:
 				libraryService.saveToFile();
 				System.out.println("\nExiting...");
 				exit = true;

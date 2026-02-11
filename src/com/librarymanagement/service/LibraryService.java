@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.librarymanagement.model.Book;
@@ -17,6 +18,7 @@ public class LibraryService {
 	private int counter = 1;
 	
 	public boolean addBook(String title, String author) {
+		
 		Book newBook = new Book(counter++, title, author);
 		books.add(newBook);
 		return true;
@@ -83,6 +85,19 @@ public class LibraryService {
 			}
 		}
 		return false;
+	}
+	
+	public boolean deleteBook(int id) {
+		Iterator<Book> iterator = books.iterator();
+		while(iterator.hasNext()) {
+			Book b = iterator.next();
+			if(b.getId() == id && !b.isIssued()) {
+				iterator.remove();
+				return true;
+			}
+		}
+		return false;
+		
 	}
 
 	public boolean saveToFile() {
