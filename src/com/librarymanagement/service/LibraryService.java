@@ -121,10 +121,15 @@ public class LibraryService {
 		try(FileInputStream fis = new FileInputStream(file);
 			ObjectInputStream ois = new ObjectInputStream(fis)) {
 			books = (List<Book>) ois.readObject();
+			counter = books.stream()
+					.mapToInt(Book::getId)
+					.max()
+					.orElse(0)+1;
 			return true;
 		} catch(IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 			books = new ArrayList<>();
+			counter = 1;
 			return false;
 		}
 	}
