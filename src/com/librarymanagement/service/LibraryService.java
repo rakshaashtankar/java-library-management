@@ -25,9 +25,18 @@ public class LibraryService {
 		return id<=0;
 	}
 	
+	private Book findBookById(int id) {
+		for(Book b : books) {
+			if(b.getId() == id) {
+				return b;
+			}
+		}
+		return null;
+	}
+	
 	public boolean addBook(String title, String author) {
 		if(isInvalidString(title) || isInvalidString(author)) return false;
-		Book newBook = new Book(counter++, title, author);
+		Book newBook = new Book(counter++, title.trim(), author.trim());
 		books.add(newBook);
 		return true;
 	}
@@ -60,44 +69,27 @@ public class LibraryService {
 	
 	public boolean updateBook(int id, String title, String author) {
 		if(isInvalidString(title) || isInvalidString(author)) return false;
-		for(Book b : books) {
-			if(b.getId() == id) {
-				b.setTitle(title);
-				b.setAuthor(author);
-				return true;
-			}
-		}
-		return false;
+		Book book = findBookById(id);
+		if(book == null)return false;
+		book.setTitle(title.trim());
+		book.setAuthor(author.trim());
+		return true;
 	}
 	
 	public boolean issueBook(int id) {
 		if(isInvalidId(id)) return false;
-		for(Book b : books) {
-			if(b.getId() == id) {
-				if(!b.isIssued()) {
-					b.setIssued(true);
-					return true;
-				} else {
-					return false;
-				}
-			}
-		}
-		return false;
+		Book book = findBookById(id);
+		if(book == null || book.isIssued()) return false;
+		book.setIssued(true);
+		return true;
 	}
 	
 	public boolean returnBook(int id) {
 		if(isInvalidId(id)) return false;
-		for(Book b : books) {
-			if(b.getId() == id) {
-				if(b.isIssued()) {
-					b.setIssued(false);
-					return true;
-				} else {
-					return false;
-				}
-			}
-		}
-		return false;
+		Book book = findBookById(id);
+		if(book == null || !book.isIssued()) return false;
+		book.setIssued(false);
+		return true;
 	}
 	
 	public boolean deleteBook(int id) {
@@ -134,6 +126,7 @@ public class LibraryService {
 		File file = new File("data/books.dat");
 		if(!file.exists()) {
 			books = new ArrayList<>();
+			counter = 1;
 			return false;
 		}
 		try(FileInputStream fis = new FileInputStream(file);
