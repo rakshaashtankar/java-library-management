@@ -15,10 +15,18 @@ import com.librarymanagement.model.Book;
 public class LibraryService {
 	
 	private List<Book> books = new ArrayList<>();
-	private int counter = 1;
+	private int counter;
+	
+	private boolean isInvalidString(String value) {
+		return value == null || value.trim().isEmpty();
+	}
+	
+	private boolean isInvalidId(int id) {
+		return id<=0;
+	}
 	
 	public boolean addBook(String title, String author) {
-		
+		if(isInvalidString(title) || isInvalidString(author)) return false;
 		Book newBook = new Book(counter++, title, author);
 		books.add(newBook);
 		return true;
@@ -30,6 +38,7 @@ public class LibraryService {
 	
 	public List<Book> searchBookByTitle(String title) {
 		List<Book> result = new ArrayList<>();
+		if(isInvalidString(title)) return result;
 		for(Book b : books) {
 			if(b.getTitle().toLowerCase().contains(title.toLowerCase())) {
 				result.add(b);
@@ -40,6 +49,7 @@ public class LibraryService {
 	
 	public List<Book> searchBookByAuthor(String author) {
 		List<Book> result = new ArrayList<>();
+		if(isInvalidString(author)) return result;
 		for(Book b : books) {
 			if(b.getAuthor().toLowerCase().contains(author.toLowerCase())) {
 				result.add(b);
@@ -49,6 +59,7 @@ public class LibraryService {
 	}
 	
 	public boolean updateBook(int id, String title, String author) {
+		if(isInvalidString(title) || isInvalidString(author)) return false;
 		for(Book b : books) {
 			if(b.getId() == id) {
 				b.setTitle(title);
@@ -60,6 +71,7 @@ public class LibraryService {
 	}
 	
 	public boolean issueBook(int id) {
+		if(isInvalidId(id)) return false;
 		for(Book b : books) {
 			if(b.getId() == id) {
 				if(!b.isIssued()) {
@@ -74,6 +86,7 @@ public class LibraryService {
 	}
 	
 	public boolean returnBook(int id) {
+		if(isInvalidId(id)) return false;
 		for(Book b : books) {
 			if(b.getId() == id) {
 				if(b.isIssued()) {
@@ -88,6 +101,7 @@ public class LibraryService {
 	}
 	
 	public boolean deleteBook(int id) {
+		if(isInvalidId(id)) return false;
 		Iterator<Book> iterator = books.iterator();
 		while(iterator.hasNext()) {
 			Book b = iterator.next();
@@ -101,6 +115,10 @@ public class LibraryService {
 	}
 
 	public boolean saveToFile() {
+		File dir = new File("data");
+		if(!dir.exists()) {
+			dir.mkdirs();
+		}
 		try(FileOutputStream fos = new FileOutputStream("data/books.dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 			oos.writeObject(books);
